@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/loading_view" />
+
+        <include layout="@layout/error_layout" />
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/detailGroup"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="16dp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/detailAvatar"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    tools:srcCompat="@tools:sample/avatars" />
+
+                <com.parohy.goodrequestusers.widget.RowWithLabel
+                    android:id="@+id/detailId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:label="@string/label_id"
+                    tools:text="44" />
+
+                <com.parohy.goodrequestusers.widget.RowWithLabel
+                    android:id="@+id/detailName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:label="@string/label_name"
+                    tools:text="Joe Ananas" />
+
+                <com.parohy.goodrequestusers.widget.RowWithLabel
+                    android:id="@+id/detailEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:label="@string/label_email"
+                    tools:text="joe.ananas@gmail.com" />
+
+            </LinearLayout>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

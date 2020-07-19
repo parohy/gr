@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">GoodRequestUsers</string>
+
+    <string name="user_name_format">%s %s</string>
+    <string name="user_id_format">ID: %d</string>
+    <string name="loading">Loading…</string>
+    <string name="retry">Retry</string>
+    <string name="label_id">ID:</string>
+    <string name="label_name">Name:</string>
+    <string name="label_email">Email:</string>
+</resources>
