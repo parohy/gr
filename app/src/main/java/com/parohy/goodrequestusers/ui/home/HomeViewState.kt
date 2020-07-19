@@ -21,4 +21,4 @@ fun HomeViewState?.copyData(
         silentError = silentError,
         data = listOf(*data.toTypedArray(), *value.toTypedArray())
     )
-        ?: HomeViewState(data = value)
+        ?: HomeViewState(data = value, silentError = silentError)
