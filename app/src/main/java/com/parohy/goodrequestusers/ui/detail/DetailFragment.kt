@@ -52,7 +52,7 @@ class DetailFragment: BaseFragment() {
 
             detailGroup.isRefreshing = false
 
-            showSilentError(state.silentError)
+            showSilentError(state.silentError, getString(R.string.retry)) { vm.retry() }
 
             if (!showError(state.error)) {
                 detailGroup.visibility = View.VISIBLE
