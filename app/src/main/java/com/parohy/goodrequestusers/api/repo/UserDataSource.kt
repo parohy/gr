@@ -1,6 +1,5 @@
 package com.parohy.goodrequestusers.api.repo
 
-import android.util.Log
 import com.parohy.goodrequestusers.api.ApiService
 import com.parohy.goodrequestusers.api.model.User
 import com.parohy.goodrequestusers.api.model.UserPage
