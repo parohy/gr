@@ -6,12 +6,12 @@ import androidx.lifecycle.SavedStateHandle
 import com.parohy.goodrequestusers.api.repo.UserRepository
 import com.parohy.goodrequestusers.pattern.CompositeViewModel
 import com.parohy.goodrequestusers.pattern.RetryViewModel
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
-import kotlin.IllegalArgumentException
 
 class DetailViewModel(private val userRepository: UserRepository): RetryViewModel() {
     private val _state: MutableLiveData<DetailViewState> = MutableLiveData()
@@ -22,10 +22,11 @@ class DetailViewModel(private val userRepository: UserRepository): RetryViewMode
     init {
         loadUserSubject
             .doOnNext(this::isUidValid)
-            .flatMapSingle { userRepository.getUser(it.uid) }
+            .flatMap { userRepository.getUser(it.uid) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe(this::initialStateOnSubscribe)
+            .retryWhen(this::retryHandler)
             .subscribe({
                 _state.value = DetailViewState(data = it)
             }, {
@@ -33,6 +34,14 @@ class DetailViewModel(private val userRepository: UserRepository): RetryViewMode
             })
             .toDisposables()
     }
+
+    private fun retryHandler(handler: Observable<Throwable>): Observable<Unit> =
+        retryHandler(handler) {
+            _state.value = if (_state.value?.data == null)
+                DetailViewState(error = it)
+            else
+                DetailViewState(silentError = it)
+        }
 
     private fun isUidValid(event: LoadUserEvent) {
         if (event.uid == -1) throw IllegalArgumentException("Arg uid cannot be ${event.uid}")

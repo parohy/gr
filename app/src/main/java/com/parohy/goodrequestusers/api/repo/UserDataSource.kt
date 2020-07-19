@@ -4,9 +4,9 @@ import com.parohy.goodrequestusers.api.ApiService
 import com.parohy.goodrequestusers.api.model.User
 import com.parohy.goodrequestusers.api.model.UserPage
 import io.reactivex.Observable
-import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import java.net.UnknownHostException
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class UserDataSource @Inject constructor(
@@ -14,6 +14,7 @@ class UserDataSource @Inject constructor(
 ): UserRepository {
     override fun getPage(page: Int, size: Int): Observable<UserPage> =
         apiService.getUsers(page, size)
+            .timeout(10, TimeUnit.SECONDS)
             .onErrorResumeNext { t: Throwable ->
                 if (t is UnknownHostException)
                     Observable.error<UserPage>(RuntimeException("No internet connection"))
@@ -22,14 +23,14 @@ class UserDataSource @Inject constructor(
             }
             .subscribeOn(Schedulers.io())
 
-    override fun getUser(uid: Int): Single<User> =
+    override fun getUser(uid: Int): Observable<User> =
         apiService.getUser(uid)
-            .singleOrError()
+            .timeout(10, TimeUnit.SECONDS)
             .onErrorResumeNext { t: Throwable ->
                 if (t is UnknownHostException)
-                    Single.error(RuntimeException("No internet connection"))
+                    Observable.error(RuntimeException("No internet connection"))
                 else
-                    Single.error(t)
+                    Observable.error(t)
             }
             .subscribeOn(Schedulers.io())
 }
