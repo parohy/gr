@@ -7,15 +7,14 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
-import com.parohy.goodrequestusers.common.BaseFragment
 import com.parohy.goodrequestusers.R
 import com.parohy.goodrequestusers.api.model.User
+import com.parohy.goodrequestusers.common.BaseFragment
 import com.parohy.goodrequestusers.diComponent
 import com.parohy.goodrequestusers.pattern.withFactory
 import kotlinx.android.synthetic.main.error_layout.*
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.android.synthetic.main.loading_view.*
-import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
 class DetailFragment: BaseFragment() {

@@ -4,17 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <FrameLayout
         android:id="@+id/loadingView"
-        style="@style/TextAppearance.MaterialComponents.Headline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/loading"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="gone" />
+        android:background="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="64dp"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="wait_lottie.json"
+            app:lottie_loop="true" />
+    </FrameLayout>
 
 </merge>

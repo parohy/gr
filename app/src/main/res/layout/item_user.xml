@@ -22,27 +22,29 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@tools:sample/avatars" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <com.parohy.goodrequestusers.widget.RowWithLabel
             android:id="@+id/itemUserId"
-            style="@style/TextAppearance.MaterialComponents.Headline5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:gravity="center_vertical"
+            app:label="@string/label_id"
+            app:layout_constraintBottom_toTopOf="@id/itemUserName"
             app:layout_constraintStart_toEndOf="@id/itemUserAvatar"
-            app:layout_constraintTop_toTopOf="@+id/itemUserAvatar"
-            tools:text="ID: 3" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="spread"
+            tools:text="4" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <com.parohy.goodrequestusers.widget.RowWithLabel
             android:id="@+id/itemUserName"
-            style="@style/TextAppearance.MaterialComponents.Headline5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:gravity="center_vertical"
-            app:layout_constraintStart_toEndOf="@+id/itemUserAvatar"
+            app:label="@string/label_name"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/itemUserAvatar"
             app:layout_constraintTop_toBottomOf="@+id/itemUserId"
-            tools:text="Name: Joe Ananas" />
+            app:layout_constraintVertical_chainStyle="spread"
+            tools:text="Joe Ananas" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

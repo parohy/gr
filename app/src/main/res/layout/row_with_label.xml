@@ -8,21 +8,18 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/rowLabel"
-        style="@style/TextAppearance.MaterialComponents.Headline6"
+        style="@style/RowLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textAlignment="textStart"
         tools:text="Name:" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/rowValue"
-        style="@style/TextAppearance.MaterialComponents.Headline5"
+        style="@style/RowValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_weight="3"
-        android:textAlignment="textStart"
         tools:text="Joe Ananas" />
 
 </LinearLayout>
