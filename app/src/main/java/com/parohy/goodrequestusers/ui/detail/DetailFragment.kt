@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.distinctUntilChanged
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
@@ -30,7 +31,7 @@ class DetailFragment: BaseFragment() {
 
         detailGroup.setOnRefreshListener {
             if (!detailGroup.isRefreshing)
-                vm.loadUserSubject.onNext(DetailViewModel.LoadUserEvent(args.userId))
+                vm.loadUser(args.userId)
         }
 
         errorRetry.setOnClickListener { vm.retry() }
@@ -41,7 +42,7 @@ class DetailFragment: BaseFragment() {
 
         requireActivity().application.diComponent().injectDetailFragment(this)
 
-        vm.state.observe(viewLifecycleOwner, Observer { state ->
+        vm.state.distinctUntilChanged().observe(viewLifecycleOwner, Observer { state ->
             errorGroup.visibility = View.GONE
             loadingView.visibility = View.GONE
 
@@ -60,7 +61,7 @@ class DetailFragment: BaseFragment() {
             }
         })
 
-        vm.loadUserSubject.onNext(DetailViewModel.LoadUserEvent(args.userId))
+        vm.loadUser(args.userId)
     }
 
     private fun updateData(user: User?) {

@@ -63,7 +63,7 @@ class DetailViewModelTest {
         delayedRepoResponse(Observable.just(User(1, "Joe", "Ananas", "email@email.com", "")))
 
         val vm = DetailViewModel(userRepository).apply { state.observeForever(testObserver) }
-        vm.loadUserSubject.onNext(DetailViewModel.LoadUserEvent(1))
+        vm.loadUser(1)
 
         val viewState = DetailViewState(data = User(1, "Joe", "Ananas", "email@email.com", ""))
         Assert.assertEquals(viewState, vm.state.blockingGetN(2, 1, TimeUnit.SECONDS).last())
@@ -72,7 +72,7 @@ class DetailViewModelTest {
     @Test
     fun `when getUser, called with -1, state error should contain IllegalArgumentException`() {
         val vm = DetailViewModel(userRepository).apply { state.observeForever(testObserver) }
-        vm.loadUserSubject.onNext(DetailViewModel.LoadUserEvent(-1))
+        vm.loadUser(-1)
 
         Assert.assertThat(
             vm.state.blockingGetFirst(1, TimeUnit.SECONDS).error,

@@ -10,29 +10,30 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
 class DetailViewModel(private val userRepository: UserRepository): RetryViewModel() {
     private val _state: MutableLiveData<DetailViewState> = MutableLiveData()
     val state: LiveData<DetailViewState>
         get() = _state
-    val loadUserSubject: PublishSubject<LoadUserEvent> = PublishSubject.create()
 
     init {
-        loadUserSubject
-            .doOnNext(this::isUidValid)
-            .flatMap { userRepository.getUser(it.uid) }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe(this::initialStateOnSubscribe)
-            .retryWhen(this::retryHandler)
-            .subscribe({
-                _state.value = DetailViewState(data = it)
-            }, {
-                _state.value = DetailViewState(error = it)
-            })
-            .toDisposables()
+        _state.value = DetailViewState(loading = true)
+    }
+
+    fun loadUser(uid: Int) {
+        if (isUidValid(uid))
+            userRepository.getUser(uid)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(this::initialStateOnSubscribe)
+                .retryWhen(this::retryHandler)
+                .subscribe({
+                    _state.value = DetailViewState(data = it)
+                }, {
+                    _state.value = DetailViewState(error = it)
+                })
+                .toDisposables()
     }
 
     private fun retryHandler(handler: Observable<Throwable>): Observable<Unit> =
@@ -43,8 +44,12 @@ class DetailViewModel(private val userRepository: UserRepository): RetryViewMode
                 DetailViewState(silentError = it)
         }
 
-    private fun isUidValid(event: LoadUserEvent) {
-        if (event.uid == -1) throw IllegalArgumentException("Arg uid cannot be ${event.uid}")
+    private fun isUidValid(uid: Int): Boolean {
+        return if (uid == -1) {
+            _state.value =
+                DetailViewState(error = IllegalArgumentException("Arg uid cannot be $uid"))
+            false
+        } else true
     }
 
     private fun initialStateOnSubscribe(d: Disposable) {
